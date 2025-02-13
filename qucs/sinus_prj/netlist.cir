@@ -1,0 +1,24 @@
+* Qucs 24.3.2  /home/denis/projects/circuit_simulation_examples/qucs/sinus_prj/sinus.sch
+.INCLUDE "/tmp/.mount_Qucs-SQKONG8/usr/share/qucs-s/xspice_cmlib/include/ngspice_mathfunc.inc"
+L1 _net0 0  20M 
+R1 _net1 _net0  5 tc1=0.0 tc2=0.0 
+V1 _net1 _net2 DC 0 SIN(0 220 50 0 0 0) AC 220 ACPHASE 0
+C1 _net3 0  100U 
+VPr1 _net2 _net3 DC 0
+EPr2 Pr2 0 _net1 _net0 1.0
+RPr2Pr2 Pr2 0 1E8
+RPr2_net1 _net1 _net0 1E8
+EPr3 Pr3 0 _net0 0 1.0
+RPr3Pr3 Pr3 0 1E8
+RPr3_net0 _net0 0 1E8
+
+.control
+
+ac lin [50 hz] 1 10k 
+write spice4qucs.ac1.plot v(Pr2) v(Pr3) i(VPr1)
+destroy all
+reset
+
+exit
+.endc
+.END
